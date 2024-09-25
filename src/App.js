@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from "react";
+
+const initialState = { theme: "light" };
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "TOGGLE_THEME":
+      return { ...state, theme: state.theme === "light" ? "dark" : "light" };
+
+    default:
+      return state;
+  }
+};
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleToggleTheme = () => {
+    dispatch({ type: "TOGGLE_THEME" });
+  };
+
+  const appStyles = {
+    backgroundColor: state.theme === "light" ? "#fff" : "#333",
+
+    color: state.theme === "light" ? "#000" : "#fff",
+
+    height: "100vh",
+
+    display: "flex",
+
+    justifyContent: "center",
+
+    alignItems: "center",
+
+    flexDirection: "column",
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={appStyles}>
+      <h1>{`Current Theme: ${state.theme}`}</h1>
+
+      <button onClick={handleToggleTheme}>Toggle Theme</button>
     </div>
   );
 }
